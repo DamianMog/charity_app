@@ -1,0 +1,24 @@
+{% load urlparams %}
+{% if pag_list|length > 4 %}
+    {% if pag_list.has_previous %}
+        <a class="btn btn--small btn--without-border active"
+           href="{% urlparams var_name=tab_name work_tab=1 %}">Pierwsza</a>
+        <a class="btn btn--small btn--without-border active"
+           href="{% urlparams var_name=tab_name work_tab=pag_list.previous_page_number %}">Poprzednia</a>
+    {% else %}
+        <a class="btn btn--small btn--without-border" href="#" disabled>Pierwsza</a>
+        <a class="btn btn--small btn--without-border" href="#" disabled>Poprzednia</a>
+    {% endif %}
+
+    <span class="#helpcurrent">Strona {{ pag_list.number }} / {{ pag_list.paginator.num_pages }}</span>
+
+    {% if pag_list.has_next %}
+        <a class="btn btn--small btn--without-border active"
+           href="{% urlparams var_name=tab_name work_tab=pag_list.next_page_number %}">Następna</a>
+        <a class="btn btn--small btn--without-border active"
+           href="{% urlparams var_name=tab_name work_tab=pag_list.paginator.num_pages %}">Ostatnia</a>
+    {% else %}
+        <a class="btn btn--small btn--without-border" href="#" disabled>Następna</a>
+        <a class="btn btn--small btn--without-border" href="#" disabled>Ostatnia</a>
+    {% endif %}
+{% endif %}
