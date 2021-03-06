@@ -62,8 +62,11 @@ document.addEventListener("DOMContentLoaded", function () {
         changePage(e) {
             e.preventDefault();
             const page = e.target.dataset.page;
-
             console.log(page);
+            // const refresh = window.location.protocol + "//" + window.location.host + window.location.pathname + '?tab1=' + page;
+            // console.log(refresh)
+            // window.history.pushState({path: refresh}, '', refresh);
+            // location.reload();
         }
     }
 

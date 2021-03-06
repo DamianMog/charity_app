@@ -3,6 +3,9 @@ from core.models import Category, Institution, Donation
 from account.models import NewUser
 from faker import Faker
 import random
+from django.contrib.auth import get_user_model
+
+User = get_user_model()  # Poprawić
 
 
 class Command(BaseCommand):
@@ -17,8 +20,8 @@ class Command(BaseCommand):
         fake = Faker(['pl_PL'])
         for _ in range(15):
             x = fake.first_name()
-            NewUser.objects.create_user(first_name=x, password=x,
-                                        email=fake.ascii_company_email())
+            User.objects.create_user(first_name=x, password=x,
+                                     email=fake.ascii_company_email())
         for _ in range(random.randint(10, 20)):
             cat = Category.objects.create(name=fake.word())
             cat.save()

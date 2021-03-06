@@ -1,7 +1,11 @@
-from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
 from django.views import View
 from core.models import Category, Institution, Donation
 from django.core.paginator import Paginator
+from account.models import NewUser
+from django.contrib.auth import authenticate, login
+from .form import UserCreationForm
 
 
 # Create your views here.
@@ -38,11 +42,31 @@ class Login(View):
     def get(self, request):
         return render(request, 'login.html')
 
+    def post(self, request):
+        email = request.POST['email']
+        password = request.POST['password']
+        user = authenticate(request, email=email, password=password)
+        print(user)
+        if user is not None:
+            login(request, user)
+            print("UDAŁO SIĘ")
+            return redirect('/')
+
 
 class Register(View):
+    form_class = UserCreationForm
 
     def get(self, request):
-        return render(request, 'register.html')
+        context = {'form': self.form_class()}
+        return render(request, 'register.html', context)
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        print(form.errors)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+        return render(request, 'register.html', context={'form': form})
 
 
 class AddDonation(View):
